@@ -21,12 +21,12 @@
             <h4>This page takes the integer passed in and determines if it is odd or even</h4>
             <div class="result-box">
                 {{if .StringQuery}}
-                    <h2 class="result-underlined">You didn't enter an integer, you did this:</h2>
+                    <h2 class="result-underlined">You didn't enter an integer. This is what was entered:</h2>
                     <h3>{{.StringQuery}}</h3>
                 {{else}}
-                    <h2 class="result-underlined">The number entered is</h2>
+                    <h2 class="result-underlined">The number entered is:</h2>
                     <h3>{{.Number}}</h3>
-                    <h2 class="result-underlined">This number is</h2>
+                    <h2 class="result-underlined">This number is:</h2>
                     <h3>{{.Number | formatOddOrEven}}</h3>
                 {{end}}
             </div>

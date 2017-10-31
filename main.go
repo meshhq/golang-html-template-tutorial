@@ -138,28 +138,22 @@ func render(w http.ResponseWriter, r *http.Request, tpl *template.Template, name
 	w.Write(buf.Bytes())
 }
 
-// Push the given resource to the client. Destination is a "request destination"
-// per this spec: https://fetch.spec.whatwg.org/#concept-request-destination.
-// Destination be empty.
-func push(w http.ResponseWriter, resource string, destination string) {
+// Push the given resource to the client.
+func push(w http.ResponseWriter, resource string) {
 	pusher, ok := w.(http.Pusher)
 	if ok {
 		if err := pusher.Push(resource, nil); err == nil {
 			return
 		}
 	}
-	// HTTP2 push is only supported in Go 1.8 and up; implement the preload spec
-	// in case there's a proxy that supports HTTP2.
-	// https://w3c.github.io/preload/#server-push-http-2
-	w.Header().Add("Link", fmt.Sprintf("<%s>; rel=preload; as=%s", resource, destination))
 }
 
 // Route Handlers
 
 // HomeHandler renders the homepage view template
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
-	push(w, "/static/style.css", "style")
-	push(w, "/static/navigation_bar.css", "style")
+	push(w, "/static/style.css")
+	push(w, "/static/navigation_bar.css")
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 
 	fullData := map[string]interface{}{
@@ -170,8 +164,8 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 
 // SecondHandler renders the second view template
 func SecondHandler(w http.ResponseWriter, r *http.Request) {
-	push(w, "/static/style.css", "style")
-	push(w, "/static/navigation_bar.css", "style")
+	push(w, "/static/style.css")
+	push(w, "/static/navigation_bar.css")
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 
 	fullData := map[string]interface{}{
@@ -182,9 +176,9 @@ func SecondHandler(w http.ResponseWriter, r *http.Request) {
 
 // ThirdHandler renders the third view template
 func ThirdHandler(w http.ResponseWriter, r *http.Request) {
-	push(w, "/static/style.css", "style")
-	push(w, "/static/navigation_bar.css", "style")
-	push(w, "/static/third_view.css", "style")
+	push(w, "/static/style.css")
+	push(w, "/static/navigation_bar.css")
+	push(w, "/static/third_view.css")
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 
 	var queryString string
