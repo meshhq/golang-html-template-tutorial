@@ -12,7 +12,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/johndaly/golang-html-template-tutorial/assets"
+	"github.com/meshhq/golang-html-template-tutorial/assets"
 
 	"github.com/gorilla/mux"
 )
